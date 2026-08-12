@@ -3,7 +3,7 @@
 /core/node_modules/
 
 # Environment
-/core/.env
+# /core/.env
 
 # Cache & Logs
 /core/storage/framework/cache/*
