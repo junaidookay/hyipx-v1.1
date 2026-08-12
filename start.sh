@@ -46,6 +46,15 @@ MIX_PUSHER_APP_KEY=''
 MIX_PUSHER_APP_CLUSTER=''
 EOF
 
+# Cache config
+cd /app/core && php artisan config:cache 2>&1 || true
+cd /app
+
+# Import database
+php import_db.php 2>&1 || true
+
+# Mark as installed
 touch /app/installed
 
+echo "Starting server on port ${PORT:-8000}..."
 exec php -S 0.0.0.0:${PORT:-8000} index.php
