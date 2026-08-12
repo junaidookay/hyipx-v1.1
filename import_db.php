@@ -3,7 +3,7 @@ $host = getenv('DB_HOST') ?: getenv('MYSQLHOST') ?: '127.0.0.1';
 $port = getenv('DB_PORT') ?: getenv('MYSQLPORT') ?: '3306';
 $db   = getenv('DB_DATABASE') ?: getenv('MYSQLDATABASE') ?: 'laravel';
 $user = getenv('DB_USERNAME') ?: getenv('MYSQLUSER') ?: 'root';
-$pass = getenv('DB_PASSWORD') ?: getenv('MYSQLPASSWORD') : '';
+$pass = getenv('DB_PASSWORD') ?: getenv('MYSQLPASSWORD') ?: '';
 
 if (empty($host) || empty($db)) {
     echo "No DB credentials, skipping import\n";
