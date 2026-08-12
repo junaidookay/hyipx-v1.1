@@ -16,7 +16,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /app
 COPY . .
 
-RUN mkdir -p core/bootstrap/cache && \
+RUN chmod +x start.sh && \
+    mkdir -p core/bootstrap/cache && \
     mkdir -p core/storage/framework/cache && \
     mkdir -p core/storage/framework/sessions && \
     mkdir -p core/storage/framework/views && \
@@ -26,4 +27,4 @@ RUN mkdir -p core/bootstrap/cache && \
 
 EXPOSE 8000
 
-CMD php -S 0.0.0.0:${PORT:-8000} index.php
+CMD ["./start.sh"]
