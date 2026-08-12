@@ -1,8 +1,8 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "export COMPOSER_ALLOW_SUPERUSER=1 && mkdir -p core/bootstrap/cache && cd core && composer install --no-dev --optimize-autoloader --no-scripts"
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
   },
   "deploy": {
     "startCommand": "php -S 0.0.0.0:$PORT index.php",
