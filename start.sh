@@ -1,23 +1,22 @@
 #!/bin/bash
 
 # Generate .env from Railway environment variables
-cat > core/.env << EOF
+cat > /app/core/.env << EOF
 APP_NAME=${APP_NAME:-Laravel}
 APP_ENV=production
 APP_KEY=${APP_KEY:-base64:AfL8uWPSVNUe0+326/o6tVSOKDeO0bHF9QI/FlKHVzY=}
-APP_DEBUG=${APP_DEBUG:-true}
-APP_URL=${RAILWAY_PUBLIC_DOMAIN:+https://$RAILWAY_PUBLIC_DOMAIN}
-APP_URL=${APP_URL:-http://localhost:8000}
+APP_DEBUG=true
+APP_URL=https://${RAILWAY_PUBLIC_DOMAIN}
 
 LOG_CHANNEL=stack
 ADMIN_ROUTE=admin
 
 DB_CONNECTION=mysql
-DB_HOST=${DB_HOST:-${MYSQLHOST:-127.0.0.1}}
-DB_PORT=${DB_PORT:-${MYSQLPORT:-3306}}
-DB_DATABASE=${DB_DATABASE:-${MYSQLDATABASE:-laravel}}
-DB_USERNAME=${DB_USERNAME:-${MYSQLUSER:-root}}
-DB_PASSWORD=${DB_PASSWORD:-${MYSQLPASSWORD:-}}
+DB_HOST=${DB_HOST:-${MYSQLHOST}}
+DB_PORT=${DB_PORT:-${MYSQLPORT}}
+DB_DATABASE=${DB_DATABASE:-${MYSQLDATABASE}}
+DB_USERNAME=${DB_USERNAME:-${MYSQLUSER}}
+DB_PASSWORD=${DB_PASSWORD:-${MYSQLPASSWORD}}
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
@@ -47,35 +46,6 @@ MIX_PUSHER_APP_KEY=''
 MIX_PUSHER_APP_CLUSTER=''
 EOF
 
-cd core
-php artisan config:cache 2>/dev/null || true
-
-php -r "
-require 'vendor/autoload.php';
-\$app = require bootstrap/app.php;
-\$app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-
-try {
-    \$exists = \Illuminate\Support\Facades\Schema::hasTable('general_settings');
-    if (!\$exists) {
-        echo 'Table missing - importing database...\n';
-        \$sql = file_get_contents(__DIR__ . '/../install/database.sql');
-        \$statements = array_filter(array_map('trim', explode(';', \$sql)));
-        foreach (\$statements as \$stmt) {
-            if (!empty(\$stmt)) {
-                \Illuminate\Support\Facades\DB::unprepared(\$stmt);
-            }
-        }
-        echo 'Database imported.\n';
-    } else {
-        echo 'Database already set up.\n';
-    }
-} catch (Exception \$e) {
-    echo 'DB connection error: ' . \$e->getMessage() . '\n';
-}
-" 2>&1
-
 touch /app/installed
-cd /app
 
 exec php -S 0.0.0.0:${PORT:-8000} index.php
