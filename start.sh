@@ -1,12 +1,14 @@
 #!/bin/bash
 
+PORT=${PORT:-8000}
+
 # Generate .env from Railway environment variables
 cat > /app/core/.env << EOF
 APP_NAME=${APP_NAME:-Laravel}
 APP_ENV=production
 APP_KEY=${APP_KEY:-base64:AfL8uWPSVNUe0+326/o6tVSOKDeO0bHF9QI/FlKHVzY=}
 APP_DEBUG=true
-APP_URL=https://${RAILWAY_PUBLIC_DOMAIN}
+APP_URL=https://${RAILWAY_PUBLIC_DOMAIN:-localhost}
 
 LOG_CHANNEL=stack
 ADMIN_ROUTE=admin
@@ -56,5 +58,5 @@ php import_db.php 2>&1 || true
 # Mark as installed
 touch /app/installed
 
-echo "Starting server on port ${PORT:-8000}..."
-exec php -S 0.0.0.0:${PORT:-8000} index.php
+echo "Starting server on port ${PORT}..."
+exec php -S 0.0.0.0:${PORT} index.php
