@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=${PORT:-8000}
+PORT=${PORT:-8080}
 
 # Generate .env from Railway environment variables
 cat > /app/core/.env << EOF

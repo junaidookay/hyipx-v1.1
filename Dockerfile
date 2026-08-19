@@ -25,6 +25,6 @@ RUN chmod +x start.sh import_db.php && \
     cd core && composer config --no-plugins policy.advisories.block false && \
     composer install --no-dev --optimize-autoloader --no-scripts
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD ["./start.sh"]
