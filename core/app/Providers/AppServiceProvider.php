@@ -70,33 +70,33 @@ class AppServiceProvider extends ServiceProvider {
 
         Paginator::useBootstrapFive();
 
-        // License Validation Check
-        if (!app()->runningInConsole()) {
-            try {
-                \Wise\Service\WiseService::verifyLicenseSecretly();
-                
-                $general = gs();
-                
-                $pCode  = $general->purchase_code;
-                $domain = $general->verified_domain ?? $general->domain;
-                $active = $general->license_active ?? $general->active;
-                
-                $invalidLicense = empty($pCode) || empty($domain) || empty($active);
-                
-                if ($invalidLicense) {
-                    if (!request()->is('cookie-preferences') && !request()->is('cookie-preferences/*')) {
-                        redirect('cookie-preferences')->send();
-                        exit;
-                    }
-                } else {
-                    if (request()->is('cookie-preferences') || request()->is('cookie-preferences/*')) {
-                        redirect('/')->send();
-                        exit;
-                    }
-                }
-        } catch (\Throwable $e) {
-            // License check skipped - class may be missing
-        }
+        // License Validation Check - disabled for client deployment
+        // if (!app()->runningInConsole()) {
+        //     try {
+        //         \Wise\Service\WiseService::verifyLicenseSecretly();
+        //         
+        //         $general = gs();
+        //         
+        //         $pCode  = $general->purchase_code;
+        //         $domain = $general->verified_domain ?? $general->domain;
+        //         $active = $general->license_active ?? $general->active;
+        //         
+        //         $invalidLicense = empty($pCode) || empty($domain) || empty($active);
+        //         
+        //         if ($invalidLicense) {
+        //             if (!request()->is('cookie-preferences') && !request()->is('cookie-preferences/*')) {
+        //                 redirect('cookie-preferences')->send();
+        //                 exit;
+        //             }
+        //         } else {
+        //             if (request()->is('cookie-preferences') || request()->is('cookie-preferences/*')) {
+        //                 redirect('/')->send();
+        //                 exit;
+        //             }
+        //         }
+        //     } catch (\Throwable $e) {
+        //         // License check skipped
+        //     }
+        // }
     }
-}
 }

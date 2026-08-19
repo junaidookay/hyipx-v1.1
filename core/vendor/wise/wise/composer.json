@@ -1,0 +1,11 @@
+{
+    "name": "wise/wise",
+    "description": "Wise License System",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Wise\\Service\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
