@@ -64,7 +64,7 @@ class AppServiceProvider extends ServiceProvider {
                     \URL::forceScheme('https');
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Database may not exist during build/install
         }
 
@@ -94,9 +94,9 @@ class AppServiceProvider extends ServiceProvider {
                         exit;
                     }
                 }
-            } catch (\Exception $e) {
-                // Keep silent to prevent crash during setup/migration
-            }
+        } catch (\Throwable $e) {
+            // License check skipped - class may be missing
         }
     }
+}
 }
