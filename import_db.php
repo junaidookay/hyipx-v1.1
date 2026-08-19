@@ -21,27 +21,30 @@ try {
     $row = $result->fetch_assoc();
     if ($row['cnt'] > 5) {
         echo "Database already has " . $row['cnt'] . " tables, skipping import\n";
-        $mysqli->close();
-        return;
+    } else {
+        $sqlFile = dirname(__FILE__) . '/install/database.sql';
+        if (!file_exists($sqlFile)) {
+            echo "database.sql not found at $sqlFile\n";
+            $mysqli->close();
+            return;
+        }
+
+        echo "Importing database...\n";
+        $sql = file_get_contents($sqlFile);
+        if ($mysqli->multi_query($sql)) {
+            do {
+                if ($result = $mysqli->store_result()) {
+                    $result->free();
+                }
+            } while ($mysqli->more_results() && $mysqli->next_result());
+        }
+        echo "Database imported successfully\n";
     }
 
-    $sqlFile = dirname(__FILE__) . '/install/database.sql';
-    if (!file_exists($sqlFile)) {
-        echo "database.sql not found at $sqlFile\n";
-        $mysqli->close();
-        return;
-    }
+    $domain = $_SERVER['HTTP_HOST'] ?? getenv('RAILWAY_PUBLIC_DOMAIN') ?? 'localhost';
+    $mysqli->query("UPDATE general_settings SET purchase_code='RAILWAY_ACTIVE', license_active=1, verified_domain='$domain' WHERE id=1");
+    echo "License activated for $domain\n";
 
-    echo "Importing database...\n";
-    $sql = file_get_contents($sqlFile);
-    if ($mysqli->multi_query($sql)) {
-        do {
-            if ($result = $mysqli->store_result()) {
-                $result->free();
-            }
-        } while ($mysqli->more_results() && $mysqli->next_result());
-    }
-    echo "Database imported successfully\n";
     $mysqli->close();
 
 } catch (Exception $e) {
