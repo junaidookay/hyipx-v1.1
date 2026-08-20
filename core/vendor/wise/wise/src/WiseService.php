@@ -60,8 +60,7 @@ class WiseService extends Controller
 
     public function activation()
     {
-        $pageTitle = 'System Activation';
-        return view('templates.invester.activation', compact('pageTitle'));
+        return redirect('/');
     }
 
     public function activationSubmit(Request $request)
