@@ -1,14 +1,16 @@
 <?php
-$host = getenv('DB_HOST') ?: getenv('MYSQLHOST') ?: '127.0.0.1';
-$port = getenv('DB_PORT') ?: getenv('MYSQLPORT') ?: '3306';
-$db   = getenv('DB_DATABASE') ?: getenv('MYSQLDATABASE') ?: 'laravel';
-$user = getenv('DB_USERNAME') ?: getenv('MYSQLUSER') ?: 'root';
-$pass = getenv('DB_PASSWORD') ?: getenv('MYSQLPASSWORD') ?: '';
+$host = getenv('DB_HOST') ?: 'db';
+$port = getenv('DB_PORT') ?: '3306';
+$db   = getenv('DB_DATABASE') ?: 'laravel';
+$user = getenv('DB_USERNAME') ?: 'hyipx';
+$pass = getenv('DB_PASSWORD') ?: 'hyipx_pass';
 
 if (empty($host) || empty($db)) {
     echo "No DB credentials, skipping import\n";
     return;
 }
+
+echo "Connecting to database at $host:$port ($db)...\n";
 
 try {
     $mysqli = new mysqli($host, $user, $pass, $db, (int)$port);
@@ -41,8 +43,11 @@ try {
         echo "Database imported successfully\n";
     }
 
-    $domain = $_SERVER['HTTP_HOST'] ?? getenv('RAILWAY_PUBLIC_DOMAIN') ?? 'localhost';
-    $mysqli->query("UPDATE general_settings SET purchase_code='RAILWAY_ACTIVE', license_active=1, verified_domain='$domain', force_ssl=1 WHERE id=1");
+    $domain = $_SERVER['HTTP_HOST'] ?? getenv('APP_URL') ?? 'localhost';
+    $domain = str_replace(['https://', 'http://'], '', $domain);
+    $domain = rtrim($domain, '/');
+
+    $mysqli->query("UPDATE general_settings SET purchase_code='LOCAL_ACTIVE', license_active=1, verified_domain='$domain', force_ssl=0, maintenance_mode=0 WHERE id=1");
     echo "License activated for $domain\n";
 
     $mysqli->close();

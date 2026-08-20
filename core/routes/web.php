@@ -9,18 +9,6 @@ Route::get('/clear', function(){
 
 
 
-Route::get('activate', function() {
-    return app(\App\Http\Controllers\SiteController::class)->index();
-})->name('activate');
-
-Route::get('cookie-preferences', function() {
-    return app(\App\Http\Controllers\SiteController::class)->index();
-})->name('cookie.preferences');
-
-Route::post('cookie-preferences', function() {
-    return redirect('/');
-})->name('cookie.preferences.submit');
-
 Route::get('cron', 'CronController@cron')->name('cron');
 
 // User Support Ticket
