@@ -108,8 +108,8 @@
         .slide-in-animation { animation: slide-in 1s ease-in-out; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         .bounce-animation { animation: bounce 1s ease-in-out infinite; }
-        @keyframes rotate { 0% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
-        .rotate-animation { animation: rotate 1s ease-in-out infinite; }
+        @keyframes spin-rotate { 0% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+        .rotate-animation { animation: spin-rotate 1s ease-in-out infinite; }
         @keyframes zoom-in { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .zoom-in-animation { animation: zoom-in 1s ease-in-out; }
     </style>

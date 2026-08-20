@@ -48,17 +48,15 @@ MIX_PUSHER_APP_KEY=''
 MIX_PUSHER_APP_CLUSTER=''
 EOF
 
-# Clear all caches to ensure fresh config
+# Clear all caches
 cd /app/core
 php artisan config:clear 2>&1 || true
 php artisan route:clear 2>&1 || true
 php artisan view:clear 2>&1 || true
 php artisan cache:clear 2>&1 || true
-php artisan config:cache 2>&1 || true
-php artisan route:cache 2>&1 || true
 cd /app
 
-# Import database
+# Import database and set license
 php import_db.php 2>&1 || true
 
 # Mark as installed

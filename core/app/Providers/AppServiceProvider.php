@@ -60,8 +60,11 @@ class AppServiceProvider extends ServiceProvider {
                     ]);
                 });
 
-                if (gs('force_ssl')) {
-                    \URL::forceScheme('https');
+                try {
+                    if (app()->environment('production') || request()->getScheme() === 'https') {
+                        \URL::forceScheme('https');
+                    }
+                } catch (\Throwable $e) {
                 }
             }
         } catch (\Throwable $e) {
