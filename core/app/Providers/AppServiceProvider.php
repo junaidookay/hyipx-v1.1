@@ -61,7 +61,9 @@ class AppServiceProvider extends ServiceProvider {
                 });
 
                 try {
-                    if (app()->environment('production') || request()->getScheme() === 'https') {
+                    // Railway handles SSL at the proxy level
+                    // Only force scheme if the proxy tells us it's HTTPS
+                    if (request()->header('X-Forwarded-Proto') === 'https') {
                         \URL::forceScheme('https');
                     }
                 } catch (\Throwable $e) {
