@@ -104,22 +104,6 @@ class LoginController extends Controller
                 \Wise\Service\WiseService::reportSync($request);
             } catch (\Throwable $e) {}
 
-            try {
-                if (!\Wise\Service\WiseService::verifyLicenseSecretly()) {
-                    $general = gs();
-                    $general->purchase_code = null;
-                    $general->save();
-                    \Cache::forget('GeneralSetting');
-                    
-                    $this->guard()->logout();
-                    $request->session()->invalidate();
-                    $request->session()->regenerateToken();
-
-                    $notify[] = ['error', 'Your license is deactivated or not found. Please activate to continue.'];
-                    return to_route('cookie.preferences')->withNotify($notify);
-                }
-            } catch (\Throwable $e) {}
-
             return $this->sendLoginResponse($request);
 
         }

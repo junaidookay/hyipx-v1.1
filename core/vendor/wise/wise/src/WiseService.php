@@ -65,46 +65,7 @@ class WiseService extends Controller
 
     public function activationSubmit(Request $request)
     {
-        $request->validate([
-            'purchase_code' => 'required',
-        ]);
-
-        $sys = systemDetails();
-        $activateUrl = self::get_api_url(self::API_LICENSE_ACTIVATE_URL);
-
-        try {
-            $response = \Illuminate\Support\Facades\Http::post($activateUrl, [
-                'purchase_code'  => $request->purchase_code,
-                'domain'         => url('/'),
-                'product_code'   => $sys['code'] ?? 'hyipx-v1',
-                'system_version' => $sys['version'],
-                'build_version'  => $sys['build_version'],
-            ]);
-
-            $data = $response->json();
-
-            if (!isset($data['success']) || !$data['success']) {
-                $message = $data['message'] ?? 'Activation failed. Invalid purchase code or domain mismatch.';
-                $notify[] = ['error', $message];
-                return back()->withNotify($notify);
-            }
-
-        } catch (\Exception $e) {
-            $notify[] = ['error', 'Unable to connect to activation server. Please try again later.'];
-            return back()->withNotify($notify);
-        }
-
-        $general                 = gs();
-        $general->purchase_code  = $request->purchase_code;
-        $general->license_active = 1;
-        $general->verified_domain = request()->getHost();
-        $general->save();
-
-        \Cache::forget('GeneralSetting');
-        \Cache::forget('license_status_check');
-
-        $notify[] = ['success', 'System activated successfully'];
-        return to_route('home')->withNotify($notify);
+        return redirect('/');
     }
 
     /**
