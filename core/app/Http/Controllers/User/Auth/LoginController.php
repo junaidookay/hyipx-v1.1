@@ -31,11 +31,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        \Log::info('[DEBUG-LOGIN] Login form requested', [
-            'url'      => request()->fullUrl(),
-            'referrer' => request()->headers->get('referer'),
-            'route'    => request()->route()?->getName(),
-        ]);
         $pageTitle = "Login";
         Intended::identifyRoute();
         return view('Template::user.auth.login', compact('pageTitle'));

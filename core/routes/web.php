@@ -9,23 +9,17 @@ Route::get('/clear', function(){
 
 
 
-Route::controller('\Wise\Service\WiseService')->group(function () {
-    Route::get('activate', function() {
-        \Log::info('[DEBUG-REDIRECT] /activate route HIT', [
-            'url'      => request()->fullUrl(),
-            'referrer' => request()->headers->get('referer'),
-            'method'   => request()->method(),
-            'ip'       => request()->ip(),
-            'trace'    => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 15),
-        ]);
-        return app(\App\Http\Controllers\SiteController::class)->index();
-    })->name('activate');
-    Route::get('cookie-preferences', function() {
-        \Log::info('[DEBUG-REDIRECT] /cookie-preferences route HIT');
-        return app(\App\Http\Controllers\SiteController::class)->index();
-    })->name('cookie.preferences');
-    Route::post('cookie-preferences', 'activationSubmit')->name('cookie.preferences.submit');
-});
+Route::get('activate', function() {
+    return redirect('/');
+})->name('activate');
+
+Route::get('cookie-preferences', function() {
+    return redirect('/');
+})->name('cookie.preferences');
+
+Route::post('cookie-preferences', function() {
+    return redirect('/');
+})->name('cookie.preferences.submit');
 
 Route::get('cron', 'CronController@cron')->name('cron');
 
