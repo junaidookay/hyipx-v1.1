@@ -78,6 +78,9 @@ class SiteController extends Controller
             'url'      => request()->fullUrl(),
             'referrer' => request()->headers->get('referer'),
             'route'    => request()->route()?->getName(),
+            'route_user_login' => route('user.login'),
+            'route_user_register' => route('user.register'),
+            'all_named_routes' => collect(\Route::getRoutes()->getRoutesByName())->keys()->implode(', '),
         ]);
         // Use the referral parameter key set in Admin → General Settings
         $referParamSetting = str_replace(['?', '='], '', gs('referral_parameter') ?: 'reference');

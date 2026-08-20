@@ -150,6 +150,16 @@
     @if(request()->is('activate') || request()->is('cookie-preferences'))
     <script>if(window.history&&window.history.replaceState){window.history.replaceState({path:'/'},null,'/');}</script>
     @endif
+    <script>
+        document.querySelectorAll('a[href]').forEach(function(a) {
+            if (a.href.includes('activate') && !a.href.includes('cookie')) {
+                console.error('[DEBUG-HREF] Found link pointing to activate:', a.href, a.outerHTML.substring(0, 200));
+            }
+        });
+        document.querySelectorAll('a').forEach(function(a) {
+            console.log('[DEBUG-LINK]', a.textContent.trim().substring(0,30), '->', a.href);
+        });
+    </script>
     @stack('script')
 </body>
 </html>
