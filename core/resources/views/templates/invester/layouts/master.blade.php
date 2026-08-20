@@ -147,6 +147,9 @@
     <script src="{{ asset('assets/templates/invester/js/main.js') }}"></script>
     <script src="{{ asset('assets/theme/theme3/frontend/js/iziToast.min.js') }}"></script>
     @include('partials.notify')
+    @if(request()->is('activate') || request()->is('cookie-preferences'))
+    <script>if(window.history&&window.history.replaceState){window.history.replaceState({path:'/'},null,'/');}</script>
+    @endif
     @stack('script')
 </body>
 </html>

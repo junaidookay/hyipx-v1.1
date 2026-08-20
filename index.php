@@ -1,5 +1,13 @@
 <?php
 
+// Serve static files directly when using PHP built-in server
+if (php_sapi_name() === 'cli-server') {
+    $path = __DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    if (is_file($path)) {
+        return false;
+    }
+}
+
 // Path to the installed file in the current directory
 $installedFilePath = __DIR__ . '/installed';
 
