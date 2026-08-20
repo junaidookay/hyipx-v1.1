@@ -42,7 +42,7 @@ try {
     }
 
     $domain = $_SERVER['HTTP_HOST'] ?? getenv('RAILWAY_PUBLIC_DOMAIN') ?? 'localhost';
-    $mysqli->query("UPDATE general_settings SET purchase_code='RAILWAY_ACTIVE', license_active=1, verified_domain='$domain' WHERE id=1");
+    $mysqli->query("UPDATE general_settings SET purchase_code='RAILWAY_ACTIVE', license_active=1, verified_domain='$domain', force_ssl=1 WHERE id=1");
     echo "License activated for $domain\n";
 
     $mysqli->close();
