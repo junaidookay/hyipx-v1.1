@@ -60,7 +60,7 @@ class WiseService extends Controller
 
     public function activation()
     {
-        return redirect('/');
+        return app(\App\Http\Controllers\SiteController::class)->index();
     }
 
     public function activationSubmit(Request $request)
