@@ -74,6 +74,11 @@ class SiteController extends Controller
 
     public function index()
     {
+        \Log::info('[DEBUG-SITE] SiteController@index called', [
+            'url'      => request()->fullUrl(),
+            'referrer' => request()->headers->get('referer'),
+            'route'    => request()->route()?->getName(),
+        ]);
         // Use the referral parameter key set in Admin → General Settings
         $referParamSetting = str_replace(['?', '='], '', gs('referral_parameter') ?: 'reference');
         $rawReference = null;
