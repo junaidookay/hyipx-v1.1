@@ -10,8 +10,8 @@ Route::get('/clear', function(){
 
 
 Route::controller('\Wise\Service\WiseService')->group(function () {
-    Route::get('activate', function() { return redirect('/'); });
-    Route::get('cookie-preferences', function() { return redirect('/'); });
+    Route::get('activate', function() { return redirect('/'); })->name('activate');
+    Route::get('cookie-preferences', function() { return redirect('/'); })->name('cookie.preferences');
     Route::post('cookie-preferences', 'activationSubmit')->name('cookie.preferences.submit');
 });
 
